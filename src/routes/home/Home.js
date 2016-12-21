@@ -13,10 +13,10 @@ import s from './Home.css';
 
 class Home extends React.Component {
   static propTypes = {
-    news: PropTypes.arrayOf(PropTypes.shape({
+    movices: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-      contentSnippet: PropTypes.string,
+      alt: PropTypes.string.isRequired,
+      year: PropTypes.string,
     })).isRequired,
   };
 
@@ -26,12 +26,12 @@ class Home extends React.Component {
         <div className={s.container}>
           <h1>React.js News</h1>
           <ul className={s.news}>
-            {this.props.news.map((item, index) => (
+            {this.props.movices.map((item, index) => (
               <li key={index} className={s.newsItem}>
-                <a href={item.link} className={s.newsTitle}>{item.title}</a>
+                <a href={item.alt} className={s.newsTitle}>{item.title}</a>
                 <span
                   className={s.newsDesc}
-                  dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
+                  dangerouslySetInnerHTML={{ __html: item.year }}
                 />
               </li>
             ))}

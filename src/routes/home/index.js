@@ -24,15 +24,15 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{news{title,link,contentSnippet}}',
+        query: '{movices{title,alt,year}}',
       }),
       credentials: 'include',
     });
     const { data } = await resp.json();
-    if (!data || !data.news) throw new Error('Failed to load the news feed.');
+    if (!data || !data.movices) throw new Error('Failed to load the news feed.');
     return {
       title: 'React Starter Kit',
-      component: <Layout><Home news={data.news} /></Layout>,
+      component: <Layout><Home movices={data.movices} /></Layout>,
     };
   },
 
