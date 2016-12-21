@@ -9,6 +9,7 @@
 
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
+import { Tag } from 'antd';
 import s from './Home.css';
 
 class Home extends React.Component {
@@ -28,7 +29,7 @@ class Home extends React.Component {
           <ul className={s.news}>
             {this.props.movices.map((item, index) => (
               <li key={index} className={s.newsItem}>
-                <a href={item.alt} className={s.newsTitle}>{item.title}</a>
+                <a href={item.alt} className={s.newsTitle}>{item.title}<Tag color="#87d068">New</Tag></a>
                 <span
                   className={s.newsDesc}
                   dangerouslySetInnerHTML={{ __html: item.year }}

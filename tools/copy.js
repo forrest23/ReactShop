@@ -31,6 +31,8 @@ async function copy() {
     copyFile('LICENSE.txt', 'build/LICENSE.txt'),
     copyDir('src/content', 'build/content'),
     copyDir('public', 'build/public'),
+    makeDir('build/public/css'),
+    copyFile('node_modules/antd/dist/antd.min.css', 'build/public/css/antd.min.css'),
   ]);
 
   if (process.argv.includes('--watch')) {
