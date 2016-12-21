@@ -31,6 +31,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import { createProduct } from './core/productApi';
 
 const app = express();
 
@@ -62,6 +63,15 @@ app.use(passport.initialize());
 if (process.env.NODE_ENV !== 'production') {
   app.enable('trust proxy');
 }
+
+app.post('/product/create', (req, res) => {
+  createProduct(req.body.title, req.body.costPrice).then(() => {
+    res.status(301);
+    res.send('{success}');
+  },
+  );
+});
+
 app.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
 );
