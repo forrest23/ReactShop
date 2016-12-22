@@ -65,7 +65,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.post('/product/create', (req, res) => {
-  createProduct(req.body.title, req.body.costPrice).then(() => {
+  createProduct(req.body).then(() => {
     res.status(301);
     res.send('{success}');
   },

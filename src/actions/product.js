@@ -30,11 +30,11 @@ export function changeCostPriceInput(costPirce) {
   };
 }
 
-export function createProduct(title, costPrice) {
+export function createProduct(newProduct) {
   return (dispatch) => {
     dispatch(requestCreateProduct());
 
-    return restApi.createProduct(title, costPrice)
+    return restApi.createProduct(newProduct)
     .then(data => {
       dispatch(receiveCreateProduct(data));
     });

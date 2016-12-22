@@ -25,7 +25,7 @@ export default {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: '{products{id,title,sale_price,fl_scale,fl_amount,cost_price,expiry_date}}',
+        query: '{products{id,title,tg_url,yhq_url,sale_price,fl_scale,fl_amount,cost_price,expiry_date,status}}',
       }),
       credentials: 'include',
     });

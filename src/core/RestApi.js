@@ -15,8 +15,8 @@ class RestApi {
     // this.deleteAuthToken = this.deleteAuthToken.bind(this);
   }
 
-  createProduct(title, costPrice) {
-    return this.post('/product/create', { title, costPrice });
+  createProduct(newProduct) {
+    return this.post('/product/create', newProduct);
   }
 
 
