@@ -18,23 +18,23 @@ export default {
   path: '/product',
 
   async action() {
-    const resp = await fetch('/graphql', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: '{products{id,title,tg_url,yhq_url,sale_price,fl_scale,fl_amount,cost_price,expiry_date,status}}',
-      }),
-      credentials: 'include',
-    });
-    const { data } = await resp.json();
-    if (!data || !data.products) throw new Error('Failed to load the movies data.');
+    // const resp = await fetch('/graphql', {
+    //   method: 'post',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     query: '{products{id,title,tg_url,yhq_url,sale_price,fl_scale,fl_amount,cost_price,expiry_date,status}}',
+    //   }),
+    //   credentials: 'include',
+    // });
+    // const { data } = await resp.json();
+    // if (!data || !data.products) throw new Error('Failed to load the movies data.');
 
     return {
       title: '代办',
-      component: <Layout><Product products={data.products} />
+      component: <Layout><Product />
       </Layout>,
     };
   },

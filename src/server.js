@@ -31,7 +31,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
-import { createProduct } from './core/productApi';
+import { createProduct, getProduct } from './core/productApi';
 
 const app = express();
 
@@ -72,6 +72,16 @@ app.post('/product/create', (req, res) => {
   );
 });
 
+app.get('/product/get', (req, res) => {
+  getProduct().then((data) => {
+    res.json({
+      code: 200,
+      products: data,
+    });
+  },
+  );
+});
+
 app.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false }),
 );
@@ -103,8 +113,8 @@ app.get('*', async (req, res, next) => {
     const store = configureStore({
       user: req.user || null,
     }, {
-      cookie: req.headers.cookie,
-    });
+        cookie: req.headers.cookie,
+      });
 
     store.dispatch(setRuntimeVariable({
       name: 'initialNow',
@@ -133,29 +143,29 @@ app.get('*', async (req, res, next) => {
       query: req.query,
     });
 
-    if (route.redirect) {
-      res.redirect(route.status || 302, route.redirect);
-      return;
-    }
+if (route.redirect) {
+  res.redirect(route.status || 302, route.redirect);
+  return;
+}
 
-    const data = { ...route };
-    data.children = ReactDOM.renderToString(<App context={context}>{route.component}</App>);
-    data.style = [...css].join('');
-    data.scripts = [
-      assets.vendor.js,
-      assets.client.js,
-    ];
-    data.state = context.store.getState();
-    if (assets[route.chunk]) {
-      data.scripts.push(assets[route.chunk].js);
-    }
+const data = { ...route };
+data.children = ReactDOM.renderToString(<App context={context}>{route.component}</App>);
+data.style = [...css].join('');
+data.scripts = [
+  assets.vendor.js,
+  assets.client.js,
+];
+data.state = context.store.getState();
+if (assets[route.chunk]) {
+  data.scripts.push(assets[route.chunk].js);
+}
 
-    const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
-    res.status(route.status || 200);
-    res.send(`<!doctype html>${html}`);
+const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
+res.status(route.status || 200);
+res.send(`<!doctype html>${html}`);
   } catch (err) {
-    next(err);
-  }
+  next(err);
+}
 });
 
 //
@@ -172,7 +182,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
       title="Internal Server Error"
       description={err.message}
       style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
-    >
+      >
       {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
     </Html>,
   );

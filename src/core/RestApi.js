@@ -19,6 +19,10 @@ class RestApi {
     return this.post('/product/create', newProduct);
   }
 
+  getProducts() {
+    return this.get('/product/get');
+  }
+
 
   dealResponse(response) {
     let self = this;

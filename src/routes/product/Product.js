@@ -22,13 +22,6 @@ const { Column } = Table;
 const dateFormat = 'YYYY-MM-DD';
 
 class Product extends React.Component {
-  static propTypes = {
-    products: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-    })).isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -59,36 +52,8 @@ class Product extends React.Component {
     this.setInputStatus = this.setInputStatus.bind(this);
   }
 
-  add() {
-    this.setState({
-      visible: true,
-    });
-  }
-
-  handleOk() {
-    const { actions } = this.props;
-    const newProduct = {
-      title: this.state.title,
-      tg_url: this.state.tg_url,
-      yhq_url: this.state.yhq_url,
-      sale_price: this.state.sale_price,
-      fl_scale: this.state.fl_scale,
-      fl_amount: this.state.fl_amount,
-      cost_price: this.state.cost_price,
-      expiry_date: this.state.expiry_date,
-      status: this.state.status,
-    };
-    actions.createProduct(
-      newProduct,
-    );
-  }
-
-  handleCancel() {
-    this.setState({ visible: false });
-  }
-
-  reload() {
-    this.setState({ visible: false });
+  componentWillMount() {
+    this.props.actions.getProducts();
   }
 
   setInputTitle(event) {
@@ -141,6 +106,40 @@ class Product extends React.Component {
     });
   }
 
+  add() {
+    this.setState({
+      visible: true,
+    });
+  }
+
+  handleOk() {
+    const { actions } = this.props;
+    const newProduct = {
+      title: this.state.title,
+      tg_url: this.state.tg_url,
+      yhq_url: this.state.yhq_url,
+      sale_price: this.state.sale_price,
+      fl_scale: this.state.fl_scale,
+      fl_amount: this.state.fl_amount,
+      cost_price: this.state.cost_price,
+      expiry_date: this.state.expiry_date,
+      status: this.state.status,
+    };
+    actions.createProduct(
+      newProduct,
+    );
+  }
+
+  handleCancel() {
+    this.setState({ visible: false });
+    this.props.actions.getProducts();
+  }
+
+  reload() {
+    this.setState({ visible: false });
+    this.props.actions.getProducts();
+  }
+
   render() {
     const { product, actions } = this.props;
 
@@ -157,7 +156,7 @@ class Product extends React.Component {
               </Button>
             </Button.Group>
           </div>
-          <Table dataSource={this.props.products} bordered pagination={false}>
+          <Table dataSource={_.get(product, 'rs')} bordered pagination={false} loading={_.get(product, 'isGetFetching')}>
             <Column
               title="名称"
               dataIndex="title"

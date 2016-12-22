@@ -16,17 +16,27 @@ function receiveCreateProduct(data) {
   };
 }
 
-export function changeTitleInput(title) {
+export function requestGetProducts() {
   return {
-    type: types.CHANGE_TITLE_INPUT,
-    payload: title,
+    type: types.GET_PRODUCTS,
   };
 }
 
-export function changeCostPriceInput(costPirce) {
+export function receiveGetProducts(data) {
   return {
-    type: types.CHANGE_COST_PRICE_INPUT,
-    payload: costPirce,
+    type: types.RECEIVE_GET_PRODUCTS,
+    payload: data,
+  };
+}
+
+export function getProducts() {
+  return (dispatch) => {
+    dispatch(requestGetProducts());
+
+    return restApi.getProducts()
+    .then(data => {
+      dispatch(receiveGetProducts(data));
+    });
   };
 }
 
@@ -40,3 +50,6 @@ export function createProduct(newProduct) {
     });
   };
 }
+
+
+
